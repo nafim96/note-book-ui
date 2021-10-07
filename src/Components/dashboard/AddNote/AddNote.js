@@ -1,34 +1,31 @@
 import React, { useContext, useState } from 'react';
 import { LockClosedIcon } from '@heroicons/react/solid';
 import { useForm } from "react-hook-form";
-import { Link } from 'react-router-dom';
 import { NoteContext } from '../../../context/Notes/NoteContext';
 
-const Form = () =>
+const AddNote = () =>
 {
     const [ checking, setChecking ] = useState( true );
     const context = useContext( NoteContext );
-    const { setState } = context;
+    const { addNote } = context;
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data =>
     {
         data.checkbox ? setChecking( false ) : setChecking( true );
-        const noteResult = {
-            note: [
-                {
-                    _id: Math.random() * 10000,
-                    title: data.title,
-                    description: data.description,
-                    tag: data.tag,
-                    agree: data.checkbox,
-                    date: new Date().toISOString()
-                },
-            ]
+
+        const notes = {
+            _id: Math.random() * 10000,
+            title: data.title,
+            description: data.description,
+            tag: data.tag,
+            agree: data.checkbox,
+            date: new Date().toISOString()
         };
-        setState( noteResult.note );
+        addNote( notes );
     };
     return (
         <div className="flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+
             <div className="max-w-md w-full space-y-8">
                 <div>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Add Your Daily Notes</h2>
@@ -99,12 +96,6 @@ const Form = () =>
                                 Check Out
                             </label>
                         </div>
-
-                        <div className="text-sm">
-                            <Link to="/updateForm" className="font-medium text-indigo-600 hover:text-indigo-500">
-                                Forgot your password?
-                            </Link>
-                        </div>
                     </div>
 
                     <div>
@@ -117,7 +108,7 @@ const Form = () =>
                             <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                                 <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
                             </span>
-                            Sign in
+                            Note Add
                         </button>
                     </div>
                 </form>
@@ -126,4 +117,4 @@ const Form = () =>
     );
 };
 
-export default Form;
+export default AddNote;

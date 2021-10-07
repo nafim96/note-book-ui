@@ -18,8 +18,8 @@ const Navbar = () =>
     const navigation = [
         location.pathname === "/home" ? { name: 'Home', to: '/home', current: true } : { name: 'Home', to: '/home', current: false },
         location.pathname === "/about" ? { name: 'About', to: '/about', current: true } : { name: 'About', to: '/about', current: false },
-        location.pathname === "/project" ? { name: 'Projects', to: '/', current: true } : { name: 'Projects', to: '/project', current: false },
-        location.pathname === "/calender" ? { name: 'Calendar', to: '/', current: true } : { name: 'Calendar', to: '/calender', current: false },
+        location.pathname === "/project" ? { name: 'Projects', to: '/project', current: true } : { name: 'Projects', to: '/project', current: false },
+        location.pathname === "/dashboard" ? { name: 'Dashboard', to: '/dashboard', current: true } : { name: 'Dashboard', to: '/dashboard', current: false },
     ];
     const user = {
         name: null

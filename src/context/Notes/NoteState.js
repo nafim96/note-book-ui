@@ -1,70 +1,98 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NoteContext } from './NoteContext';
 
-const noteResult = {
-    "note": [
-        {
-            "_id": "615c3753d0e95a0427353380",
-            "user": "615c36d4d0e95a042735337c",
-            "title": "I'm Anupoma Nishat",
-            "description": "I'm very Good",
-            "tag": "wife of nasir",
-            "date": "2021-10-05T11:30:27.986Z",
-            "__v": 0
-        },
-        {
-            "_id": "615d881049e527f16a5bfd19",
-            "user": "615c36d4d0e95a042735337c",
-            "title": "hello-1",
-            "description": "Every programmer is brilliant and they are very secure and handsome guy......",
-            "tag": "programmer life",
-            "date": "2021-10-06T11:27:12.844Z",
-            "__v": 0
-        },
-        {
-            "_id": "615d881649e527f16a5bfd1b",
-            "user": "615c36d4d0e95a042735337c",
-            "title": "hello-2",
-            "description": "Every programmer is brilliant and they are very secure and handsome guy......",
-            "tag": "programmer life",
-            "date": "2021-10-06T11:27:18.084Z",
-            "__v": 0
-        },
-        {
-            "_id": "615d881d49e527f16a5bfd1d",
-            "user": "615c36d4d0e95a042735337c",
-            "title": "hello-3",
-            "description": "Every programmer is brilliant and they are very secure and handsome guy......",
-            "tag": "programmer life",
-            "date": "2021-10-06T11:27:25.059Z",
-            "__v": 0
-        },
-        {
-            "_id": "615d882349e527f16a5bfd1f",
-            "user": "615c36d4d0e95a042735337c",
-            "title": "hello-4",
-            "description": "Every programmer is brilliant and they are very secure and handsome guy......",
-            "tag": "programmer life",
-            "date": "2021-10-06T11:27:31.026Z",
-            "__v": 0
-        },
-        {
-            "_id": "615d882849e527f16a5bfd21",
-            "user": "615c36d4d0e95a042735337c",
-            "title": "hello-5",
-            "description": "Every programmer is brilliant and they are very secure and handsome guy......",
-            "tag": "programmer life",
-            "date": "2021-10-06T11:27:36.612Z",
-            "__v": 0
-        }
-    ]
-};
+
+const initialNote = [];
+
+
+
 
 const NoteState = ( props ) =>
 {
-    const [ state, setState ] = React.useState( noteResult.note );
+    const [ noteState, setNoteState ] = useState( initialNote );
+    const host = "http://localhost:5000/";
+
+    // Get note functions
+    const getNote = async ( notes ) =>
+    {
+        const response = await fetch( `${ host }api/note/getNote`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "User-Token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXIiOnsiaWQiOiI2MTVjMzZkNGQwZTk1YTA0MjczNTMzN2MifX0sImlhdCI6MTYzMzU5OTMxNX0.7DfsZFQhvx-i99mRcaKiiVDSVJ6aer2KgZ7toKH1GUs"
+            }
+
+        } );
+        const json = await response.json();
+        setNoteState( json.note );
+    };
+    // add note functions
+    const addNote = async ( notes ) =>
+    {
+        const response = await fetch( `${ host }api/note/create`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "User-Token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXIiOnsiaWQiOiI2MTVjMzZkNGQwZTk1YTA0MjczNTMzN2MifX0sImlhdCI6MTYzMzU5OTMxNX0.7DfsZFQhvx-i99mRcaKiiVDSVJ6aer2KgZ7toKH1GUs"
+            },
+            body: JSON.stringify( notes )
+        } );
+        const json = await response.json();
+        setNoteState( noteState.concat( json ) );
+    };
+
+
+    // edit note functions
+    const editNote = async ( id, title, description, tag ) =>
+    {
+        // eslint-disable-next-line
+        const response = await fetch( `${ host }api/note/updateNote/${ id }`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "User-Token": ""
+            },
+            body: JSON.stringify( { title, description, tag } )
+
+        } );
+
+        // const json = await response.json();
+
+        // for ( let i = 0; i < noteState.length; i++ )
+        // {
+        //     let note = noteState[ i ];
+        //     if ( note._id === id )
+        //     {
+        //         note.title = title,
+        //             note.description = description,
+        //             note.tag = tag;
+        //     }
+        // }
+        console.log( id, title, description, tag );
+    };
+
+
+    // delete note functions
+    const deleteNote = async ( id ) =>
+    {
+        const response = await fetch( `${ host }api/note/deleteNote/${ id }`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json",
+                "User-Token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXIiOnsiaWQiOiI2MTVjMzZkNGQwZTk1YTA0MjczNTMzN2MifX0sImlhdCI6MTYzMzU5OTMxNX0.7DfsZFQhvx-i99mRcaKiiVDSVJ6aer2KgZ7toKH1GUs"
+            }
+
+        } );
+        const json = await response.json();
+        console.log( json );
+        const newNote = noteState.filter( ( note ) => { return note._id !== id; } );
+        setNoteState( newNote );
+    };
+
+
+
     return (
-        <NoteContext.Provider value={ { state, setState } }>
+        <NoteContext.Provider value={ { noteState, setNoteState, addNote, deleteNote, editNote, getNote } }>
             { props.children }
         </NoteContext.Provider>
     );
