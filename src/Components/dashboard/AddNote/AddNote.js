@@ -14,12 +14,9 @@ const AddNote = () =>
         data.checkbox ? setChecking( false ) : setChecking( true );
 
         const notes = {
-            _id: Math.random() * 10000,
             title: data.title,
             description: data.description,
             tag: data.tag,
-            agree: data.checkbox,
-            date: new Date().toISOString()
         };
         addNote( notes );
     };

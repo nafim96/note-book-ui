@@ -13,7 +13,6 @@ import Profile from './Components/HomeScreen/Profile/Profile';
 import Alert from './Components/shared/Alert/Alert';
 import Dashboard from './Components/dashboard/Dashboard/Dashboard';
 
-
 function App ()
 {
   return (
@@ -21,7 +20,7 @@ function App ()
       <NoteState>
         <Router>
           <Navbar />
-          <Alert message="amazing alert" />
+          <Alert message="hello" />
           <div className="container">
             <Switch>
               <Route exact path="/">
