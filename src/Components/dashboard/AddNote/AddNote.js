@@ -6,6 +6,7 @@ import { NoteContext } from '../../../context/Notes/NoteContext';
 const AddNote = () =>
 {
     const [ checking, setChecking ] = useState( true );
+    const [ note, setNote ] = useState( { title: "", description: " ", tag: "" } );
     const context = useContext( NoteContext );
     const { addNote } = context;
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -20,6 +21,7 @@ const AddNote = () =>
         };
         addNote( notes );
     };
+    const storage = localStorage.getItem( "token" );
     return (
         <div className="flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
 
@@ -38,7 +40,7 @@ const AddNote = () =>
                             <input
                                 id="title"
                                 type="text"
-                                autoComplete="title"
+                                defaultValue={ note.title }
                                 { ...register( "title", { required: true } ) }
                                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 placeholder="Title"
@@ -55,7 +57,7 @@ const AddNote = () =>
                                 rows="10"
                                 id="description"
                                 type="text"
-                                autoComplete="description"
+                                defaultValue={ note.description }
                                 { ...register( "description", { required: true } ) }
                                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 placeholder="Description"
@@ -70,7 +72,7 @@ const AddNote = () =>
                             <input
                                 id="tag"
                                 type="text"
-                                autoComplete="tag"
+                                defaultValue={ note.tag }
                                 { ...register( "tag", { required: true } ) }
                                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 placeholder="Tag"
@@ -90,7 +92,7 @@ const AddNote = () =>
                                 className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                             />
                             <label htmlFor="check-out" className="ml-2 block text-sm text-gray-900">
-                                Check Out
+                                Give Permission
                             </label>
                         </div>
                     </div>
@@ -100,6 +102,7 @@ const AddNote = () =>
 
                             type="submit"
                             disabled={ checking }
+                            onClick={ () => setNote( { title: "Hello", description: " ", tag: "" } ) }
                             className={ `group relative w-full  flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500` }
                         >
                             <span className="absolute left-0 inset-y-0 flex items-center pl-3">

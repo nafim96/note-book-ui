@@ -3,18 +3,26 @@ import { NoteContext } from '../../../context/Notes/NoteContext';
 import NoteItems from '../NoteItems/NoteItems';
 import UpdateNote from '../../dashboard/UpdateNote/UpdateNote';
 import DeleteNote from '../../dashboard/DeleteNote/DeleteNote';
+import { useHistory } from 'react-router-dom';
 
-const Home = () =>
+const Home = ( { showAlert } ) =>
 {
     const context = useContext( NoteContext );
     const { notes, getNotes, setNote } = context;
     const [ open, setOpen ] = useState( false );
     const [ cancel, setCancel ] = useState( false );
     const [ getNote, setGetNote ] = useState( {} );
+    let history = useHistory();
 
     useEffect( () =>
     {
-        getNotes();
+        if ( localStorage.getItem( "token" ) )
+        {
+            getNotes();
+        } else
+        {
+            history.push( "/login" );
+        }
         //eslint-disable-next-line
     }, [] );
 
@@ -41,7 +49,7 @@ const Home = () =>
             </div> : <div className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3 ">
                 {
 
-                    notes.map( note => ( <NoteItems key={ !note._id ? 10 : note._id } note={ note } updateNote={ updateNote } deletesNote={ deletesNote } /> ) )
+                    notes.map( note => ( <NoteItems key={ !note._id ? 10 : note._id } note={ note } updateNote={ updateNote } deletesNote={ deletesNote } showAlert={ showAlert } /> ) )
                 }
             </div> }
 

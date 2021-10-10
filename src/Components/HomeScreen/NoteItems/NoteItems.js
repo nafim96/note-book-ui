@@ -4,7 +4,7 @@ import { FaEdit, FaRegTrashAlt } from "react-icons/fa";
 const NoteItems = ( props ) =>
 {
 
-    const { note, updateNote, deletesNote } = props;
+    const { note, updateNote, deletesNote, showAlert } = props;
 
 
 
